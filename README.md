@@ -6,7 +6,7 @@
   
   Originally, I created Chart Helper for my friends and I to track our listening habits. I wanted to be able to see who's listened to what off from some given chart, and also to check whether certain albums exist on streaming services (or, if I have them on my disc). Right now, Chart Helper is limited to ProgArchives charts. Right now the content of the Excel sheets it generates is fixed to the format that I use, but that will hopefully change in the future. This program makes us of the python packages OpenPyxl, SpotiPy, and LXML.
   
-    As of right now, I have developed a rough CLI for the program. To "install" it, clone my repo and use conda to make an environment with the right packages (or, reference the list and manually install). This was developed on a M1 MacBook, but there really shouldn't be any reason this can't work on another Mac with the right adjustments. There might need to be some adjustments for Windows or Linux, so I cannot say that this program supports it yet.
+  As of right now, I have developed a rough CLI for the program. To "install" it, clone my repo and use conda to make an environment with the right packages (or, reference the list and manually install). This was developed on a M1 MacBook, but there really shouldn't be any reason this can't work on another Mac with the right adjustments. There might need to be some adjustments for Windows or Linux, so I cannot say that this program supports it yet.
   
 # WARNING
   USE THIS SCRIPT AT YOUR OWN RISK. This script was made with the utmost respect for ProgArchives' servers. This includes manual sleep commands between http requests. If you are producing a large batch of files, consider editing the time for every sleep command to be bigger. 
