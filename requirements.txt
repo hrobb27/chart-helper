@@ -1,0 +1,45 @@
+# This file may be used to create an environment using:
+# $ conda create --name <env> --file <this file>
+# platform: osx-arm64
+brotlipy=0.7.0=py311he2be06e_1005
+bzip2=1.0.8=h3422bc3_4
+ca-certificates=2022.9.24=h4653dfc_0
+certifi=2022.9.24=pyhd8ed1ab_0
+cffi=1.15.1=py311hae827db_2
+charset-normalizer=2.1.1=pyhd8ed1ab_0
+colorama=0.4.6=pyhd8ed1ab_0
+colorlog=6.7.0=py311h267d04e_1
+cryptography=38.0.3=py311h507f6e9_0
+et_xmlfile=1.0.1=py_1001
+icu=70.1=h6b3803e_0
+idna=3.4=pyhd8ed1ab_0
+libcxx=14.0.6=h2692d47_0
+libffi=3.4.2=h3422bc3_5
+libiconv=1.17=he4db4b2_0
+libsqlite=3.40.0=h76d750c_0
+libxml2=2.10.3=h87b0503_0
+libxslt=1.1.37=h1bd8bc4_0
+libzlib=1.2.13=h03a7124_4
+lxml=4.9.1=py311h246f609_1
+ncurses=6.3=h07bb92c_1
+openpyxl=3.0.9=pyhd8ed1ab_0
+openssl=3.0.7=h03a7124_0
+pip=22.3.1=pyhd8ed1ab_0
+pycparser=2.21=pyhd8ed1ab_0
+pyopenssl=22.1.0=pyhd8ed1ab_0
+pysocks=1.7.1=pyha2e5f31_6
+python=3.11.0=h93c2e33_0_cpython
+python-decouple=3.6=pyhd8ed1ab_0
+python_abi=3.11=3_cp311
+readline=8.1.2=h46ed386_0
+redis-py=3.5.3=pyh9f0ad1d_0
+requests=2.28.1=pyhd8ed1ab_1
+setuptools=65.5.1=pyhd8ed1ab_0
+six=1.16.0=pyh6c4a22f_0
+spotipy=2.20.0=pyhd8ed1ab_0
+tk=8.6.12=he1e0b03_0
+tqdm=4.64.1=pyhd8ed1ab_0
+tzdata=2022f=h191b570_0
+urllib3=1.26.13=pyhd8ed1ab_0
+wheel=0.38.4=pyhd8ed1ab_0
+xz=5.2.6=h57fd34a_0
