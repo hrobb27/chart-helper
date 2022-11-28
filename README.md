@@ -15,6 +15,10 @@
 
   To use my Chart Helper right now, you will need a couple things. You will need an app that can open .xlsx files (I use LibreOffice and Google Sheets). You will need a Spotify API client ID and secret (these are not hard to get). If you want this script to reference your digital music library on file, you need to provide a link to a directory formatted like so: [directory]/[first letter of artist]/[artist]/[album]. I cannot guarantee that this script will search your library in a dignified and sophisticated manner, but this works for most cases. The first time you run this script, you will need to run the setup command.
   
+# THE FORMAT
+
+  The way this script formats Excel might seem a bit quirky, but I thought it conveys the important information I'd want to know before checking out an album I haven't heard: the ranking, its popularity, whether I have listened to it before (or not), and whether it's easily accessible. I've used with my close friends and they've grown accustomed to it, so I like to think it's worth promoting. I don't want to expand the types of info about each album too much because what fits on a screen is more important to me. The way this script keeps track of listening is fairly portable: it stores what it can when you give it that info, but it's easy to add new people and update things. This doesn't replace something like last.fm for tracking your listening, but I want to expand this format in the future to work with sites like RYM (or others?). The format of the Excel sheet is below
+  
 # COMMANDS
 
 ## setup
