@@ -157,3 +157,21 @@ CHANGELOG:
 
 * Created basic documentation
 
+ISSUES/Future plans:
+
+* Crashing is a problem, will update with bugfixes soon
+
+* Need to update duration regex to exclude bonus disk durations. This could risk falsely leaving out songs if an album has a song with the word bonus in it
+
+* Need to create a progarchives link generator since their own is buggy
+
+* Need to adapt to RYM charts, find a way to associate PA artists w/ RYM artists (so that RYM info can be associated with PA charts)
+
+* Need to come up with a better formatting rule for listened albums (crossing albums out looks bad)
+
+* Need to find a way to sync a RYM or PA user's ratings and associate them with a chart
+
+* Need to find space to insert RYM descriptors (and also to condense RYM descriptors to 3-4)
+
+* Need to create a formatting rule that tracks changes in chart position (eg, whether an album is decreasing or increasing in chart position)
+
