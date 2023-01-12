@@ -1,6 +1,6 @@
 # CHART HELPER
 #### A Python web-scraping script for music charts with Excel sheet organization
-#### Version 1.0
+#### Version 1.01
 
   Chart Helper was created by myself in 2020 because I am a music nerd. I love listening to tons of albums, and with that I also love internet music charts. Some websites have very nice chart interfaces, like RateYourMusic. Others do not... in particular, I was super frustrated with using ProgArchives. ProgArchives is a very outdated website with some notable flaws in its structure. For example, album descriptions are not consistently formatted, making metadata finding a hassle. Another problem is that ProgArchives is very cumbersome and slow loading. So, instead of using the website itself, I began to create Excel sheets corresponding to certain charts that I liked. However, this was a lengthy process that was prone to error. That is when I decided to learn about web scraping and to take a crack at automating this process.
   
@@ -151,6 +151,11 @@
 (optional) *--new | -n* [FILENAME]: if specified, will write the chart to a new filename (.xlsx) [META COMMENT: yep, I did it twice].
 
 CHANGELOG:
+
+1.01:
+
+* Fixed some basic crashes
+
 1.0:
 
 * Uploading everything for the first time
