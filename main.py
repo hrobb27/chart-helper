@@ -128,8 +128,8 @@ class Links:
         self.inLibrary = False
     def findSpotify(self, spObj):
         log.info("Seeking spotify status for {a} by {ar}".format(a=self.album, ar=self.artist))
-        sanitize = re.compile(r'.*(?=\[)')
-        artist = re.search(sanitize, self.artist)
+        
+        artist = " ".join(re.split('\W+', self.artist))
         if not artist:
             log.debug("Artist sanitization failed, falling back")
             #WHY DID YOU PICK THAT BAND NAME???
@@ -137,7 +137,7 @@ class Links:
         else:
             artist= artist.group(0)
         log.debug("Sanitized artist name: {ar}".format(ar=artist))
-        album = re.search(sanitize, self.album)
+        album = " ".join(re.split('\W+', self.album))
         if not album:
             log.debug("Album sanitization failed, falling back")
             album = self.album
@@ -237,8 +237,10 @@ class Album:
                         old = self.profiles[listener]
                         self.profiles[listener] = newBlock[i]
                         log.debug("Overwrote {old} with {new}".format(old=old, new=newBlock[i]))
-                    elif self.profiles[listener] == "No" and newBlock[i] == "Yes":
+                    elif newBlock[i] == "Yes":
                         log.debug("Updated profile entry to Yes")
+                        self.profiles[listener] = newBlock[i]
+                    elif newBlock[i] == "No" and self.profiles[listener] == "?":
                         self.profiles[listener] = newBlock[i]
                     else:
                         log.debug("No change")
@@ -491,8 +493,12 @@ def getTimestamp(albumLink):
     elif len(temp) == 2:
         log.debug("Found {t} timestamps, adding them together".format(t=len(temp)))
         ts1 = re.search(timestampRE, temp[0]).group(0)
-        ts2 = re.search(timestampRE, temp[1]).group(0)
-        timestamp = addTimes(ts1, ts2)
+        ts2 = re.search(timestampRE, temp[1])
+        if ts2:
+            ts2 = ts2.group(0)
+            timestamp = addTimes(ts1, ts2)
+        else:
+            timestamp = ts1
     else:
         log.debug("No clear timestamps found, manually calculating")
         #trackTimeRE = re.compile(r"(?<=\d\.).*(\d{2}\:\d{2})|(?<=\d\.).*(\d{1}\:\d{2})")
@@ -514,12 +520,15 @@ def readChart(chartsheet, chartname, listeners, overwrite=False):
     #chartbook = load_workbook(filename)
     #chartsheet = chartbook[chartname]
     i = 1
-    with tqdm.tqdm(total=chartsheet.max_row, position=1, bar_format='{desc}', desc='readChart: Beginning process') as desc:
-        for row in tqdm.tqdm(chartsheet.iter_rows(),total=chartsheet.max_row, unit="album", position=0):#for every row
+    max_row=len([row for row in chartsheet if not all([cell.value is None for cell in row])]) 
+    with tqdm.tqdm(total=max_row, position=1, bar_format='{desc}', desc='readChart: Beginning process') as desc:
+        for row in tqdm.tqdm(chartsheet.iter_rows(),total=max_row, unit="album", position=0):#for every row
             if i == 1:
                 i += 1
                 pass
             else:
+                if i > max_row:
+                    break
                 log.info("Reading row {rownum}".format(rownum=i))
                 artist = str(row[0].value)
                 artistLink = str(row[0].hyperlink.target)
@@ -979,7 +988,7 @@ def main():
     parser_updatechart = subparsers.add_parser('updatechart')
     parser_updatechart.add_argument('chartname', nargs=1, action='store', help='Name of chart')
     parser_updatechart.add_argument('listeners', nargs='*', action='store',help='Listeners for chart')
-    parser_updatechart.add_argument('--newlink', nargs=1, action='store', help='Link to update chart with')
+    parser_updatechart.add_argument('--newlink',  nargs=1, action='store', help='Link to update chart with')
     parser_updatechart.add_argument('--update-spotify', action='store_true', help='Update spotify')
     parser_updatechart.add_argument('--update-duration', action='store_true', help='Update duration')
     parser_updatechart.add_argument('--write', '-w', action='store', nargs=1, help='Write scanned chart to file')
@@ -1100,9 +1109,9 @@ def main():
             if not a.listeners:
                 listeners = ['Listened?']
             chart.writeChart(sheet, listeners)
-            chartLib[chart.title] = chart
+            chartLib[chart.name] = chart
             setColumnWidths(sheet)
-            sheet.freeze_panes = sheet['B2']
+            sheet.freeze_panes = sheet['C2']
             sheet = setConditionalFormatting(sheet, chart.size, len(listeners), chart)
             wb.save(a.write[0])
         saveAlbums(albumlibdir, albumLib)
@@ -1134,7 +1143,7 @@ def main():
                 listeners = ['Listened?']
             chart.writeChart(sheet, listeners)
             setColumnWidths(sheet)
-            sheet.freeze_panes = sheet['B2']
+            sheet.freeze_panes = sheet['C2']
             sheet = setConditionalFormatting(sheet, chart.size, len(listeners), chart)
             wb.save(a.write[0])
         saveAlbums(albumlibdir, albumLib)
@@ -1161,7 +1170,7 @@ def main():
                 listeners = ['Listened?']
             chart.writeChart(sheet, listeners)
             setColumnWidths(sheet)
-            sheet.freeze_panes = sheet['B2']
+            sheet.freeze_panes = sheet['C2']
             sheet = setConditionalFormatting(sheet, chart.size, len(listeners), chart)
             wb.save(a.filename[0])
     elif a.command == 'getrejectchart':
@@ -1186,7 +1195,7 @@ def main():
                 listeners = ['Listened?']
             chart.writeChart(sheet, listeners)
             setColumnWidths(sheet)
-            sheet.freeze_panes = sheet['B2']
+            sheet.freeze_panes = sheet['C2']
             sheet = setConditionalFormatting(sheet, chart.size, len(listeners), chart)
             wb.save(a.write[0])
         saveAlbums(albumlibdir, albumLib)
@@ -1210,7 +1219,7 @@ def main():
             chart = updateChart(sheet.title, sp, listeners, updateSpotify=a.update_spotify, updateDuration=a.update_duration)
             if a.write:
                 chart.writeChart(sheet,listeners)
-                sheet.freeze_panes = sheet['B2']
+                sheet.freeze_panes = sheet['C2']
                 sheet = setConditionalFormatting(sheet, chart.size, len(listeners), chart)
                 setColumnWidths(sheet)
         if a.new:
@@ -1238,7 +1247,8 @@ def main():
         if not a.listeners:
             listeners = ['Listened?']
         if a.write:
-            wb = load_workbook(a.write[0])
+            if os.path.isfile(a.write[0]):
+                wb = load_workbook(a.write[0])
         with open(a.chartfile[0], 'r') as chartfile:
             lines = chartfile.readlines()
             for line in lines:
@@ -1253,16 +1263,16 @@ def main():
                     else:
                         sheet = wb[name]
                     chart.writeChart(sheet, listeners)
-                    sheet.freeze_panes = sheet['B2']
+                    sheet.freeze_panes = sheet['C2']
                     sheet = setConditionalFormatting(sheet, chart.size, len(listeners), chart)
                     setColumnWidths(sheet)
-        if a.write:
-            if a.new:
-                wb.save(a.new[0])
-            else:
-                wb.save(a.write[0])
-        saveAlbums(albumlibdir, albumLib)
-        saveCharts(chartlibdir, chartLib)
+                saveAlbums(albumlibdir, albumLib)
+                saveCharts(chartlibdir, chartLib)
+                if a.write:
+                    if a.new:
+                        wb.save(a.new[0])
+                    else:
+                        wb.save(a.write[0])
     sys.exit(0)
 
 if __name__ == "__main__":
